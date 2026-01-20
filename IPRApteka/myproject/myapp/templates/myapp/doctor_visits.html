@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Мои записи</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #cfdaff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            border-radius: 30px;
+            padding: 20px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+            width: 70%;
+            background: linear-gradient(to right, #5995fd, #c471ed, #12c2e9);
+            color: white;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li {
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 15px;
+            width: 100%;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 10px;
+            margin-right: 10px;
+            padding: 8px 16px;
+            background-color: #5995fd;
+            border: none;
+            border-radius: 25px;
+            color: #fff;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #4d84e2;
+        }
+
+        .btn.delete {
+            background-color: #e94b4b;
+        }
+
+        .btn.delete:hover {
+            background-color: #cc3b3b;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h2>Записи</h2>
+
+    {% if visits %}
+        <ul>
+        {% for visit in visits %}
+            <li>
+                <strong>Дата и время:</strong> {{ visit.schedule.date|date:"d.m.Y" }} {{ visit.schedule.time_start|time:"H:i" }} - {{ visit.schedule.time_end|time:"H:i" }}<br>
+                <strong>Доктор:</strong> {{ visit.schedule.doctor.first_name }} {{ visit.schedule.doctor.last_name }}<br>
+                <strong>Клиент:</strong> {{ visit.client.first_name }} {{ visit.client.last_name }}<br>
+                <strong>Телефон:</strong> {{ visit.client.phone|default:"не указан" }}<br>
+                <strong>Email:</strong> {{ visit.client.email|default:"не указан" }}<br>
+                <strong>Услуги:</strong>
+                <ul>
+                    {% for service in visit.services.all %}
+                        <li>{{ service.name }} — {{ service.price }} ₽</li>
+                    {% endfor %}
+                </ul>
+                <strong>Диагноз:</strong> {{ visit.diagnosis.name|default:"Не назначен" }}<br>
+                <strong>Общая стоимость:</strong> {{ visit.total_price }} ₽<br>
+
+                <a href="{% url 'visit_update' visit.id %}" class="btn">Редактировать</a>
+                <a href="{% url 'visit_delete' visit.id %}" class="btn delete" onclick="return confirm('Вы уверены, что хотите удалить это посещение?');">Удалить</a>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>У вас пока нет записей.</p>
+    {% endif %}
+
+    <div style="margin-top: 20px;">
+        <a href="{% url 'service_list' %}" class="btn" style="background: #888;">← Назад к списку</a>
+    </div>
+</div>
+</body>
+</html>

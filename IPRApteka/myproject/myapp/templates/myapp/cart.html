@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Корзина</title>
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+</head>
+<body>
+    <div class="card">
+        <div class="left-container">
+            <img src="https://cdn-icons-png.flaticon.com/512/891/891462.png" alt="Cart">
+            <h2 class="gradienttext">Корзина</h2>
+            <div class="credit">
+                <a href="{% url 'service_user_list' %}">Назад к списку услуг</a>
+            </div>
+        </div>
+
+        <div class="right-container">
+            <h3 class="gradienttext">Добавленные услуги</h3>
+            {% if services %}
+                <ul>
+                    {% for service in services %}
+                        <li>
+                            <p><strong>{{ service.name }}</strong> — {{ service.price }} руб. ({{ service.category.name }})</p>
+                            <a class="btn" href="{% url 'remove_from_cart' service.pk %}">Удалить</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <p><strong>Общая сумма:</strong> {{ total_price }} руб.</p>
+
+                <hr>
+    <h4 class="gradienttext">Оформление визита</h4>
+    <form method="post" id="visit-form">
+    {% csrf_token %}
+
+    <label>Выберите врача:</label><br>
+    {{ form.doctor }}<br><br>
+
+    <label>Выберите дату:</label><br>
+    <select id="{{ form.date.id_for_label }}" name="{{ form.date.name }}">
+        <option value="">Сначала выберите врача</option>
+    </select><br><br>
+
+    <label>Выберите время:</label><br>
+    {{ form.time_start }}<br><br>
+
+    <button type="submit" class="btn">Подтвердить запись</button>
+</form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const doctorSelect = document.getElementById('{{ form.doctor.id_for_label|default:"id_doctor" }}');
+    const dateSelect = document.getElementById('id_date');
+
+    doctorSelect.addEventListener('change', function() {
+        const doctorId = this.value;
+
+        if (!doctorId) {
+            dateSelect.innerHTML = '<option value="">Сначала выберите врача</option>';
+            return;
+        }
+
+        fetch(`/get-available-dates/${doctorId}/`)
+            .then(response => response.json())
+            .then(data => {
+                dateSelect.innerHTML = '';
+                if (data.dates.length === 0) {
+                    dateSelect.innerHTML = '<option value="">Нет доступных дат</option>';
+                } else {
+                    data.dates.forEach(function(date) {
+                        const option = document.createElement('option');
+                        option.value = date;
+                        option.textContent = date;
+                        dateSelect.appendChild(option);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка при загрузке дат:', error);
+            });
+    });
+});
+</script>
+
+            {% if form.errors %}
+<div class="form-errors" style="color: white;">
+    <ul>
+    {% for field in form %}
+        {% for error in field.errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <li>{{ error }}</li>
+    {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+
+            {% else %}
+                <p>Ваша корзина пуста.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

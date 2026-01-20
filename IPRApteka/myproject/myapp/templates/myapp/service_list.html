@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Услуги</title>
+  <style>
+   body {
+        font-family: Arial, sans-serif;
+        padding: 30px;
+        margin: 0; /* Убрать margin 100px */
+        background: #cfdaff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    html, body {
+        height: auto;
+    }
+
+        .card {
+        margin-top: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 30px;
+            padding: 20px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+            width: 70%;
+            background: linear-gradient(to right, #5995fd, #c471ed, #12c2e9);
+        }
+
+        .form-field {
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        label {
+            font-weight: bold;
+            color: white;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .btn {
+            width: 150px;
+            background-color: #5995fd;
+            border: none;
+            height: 45px;
+            border-radius: 25px;
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.5s;
+        }
+
+        .btn:hover {
+            background-color: #4d84e2;
+        }
+
+        .error {
+            color: red;
+            margin-top: 5px;
+        }
+
+        .page-header {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+    </style>
+</head>
+<body>
+<header class="page-header" style="display: flex; justify-content: flex-end; padding: 0px;">
+  <a href="{% url 'doctor_category_list' %}" class="credit">Добавить категорию</a>
+  {% if user.is_authenticated %}
+        <a href="{% url 'doctor' %}" class="credit">Профиль</a><br>
+    {% else %}
+        <a href="{% url 'auth' %}" class="btn">Войти</a>
+    {% endif %}
+</header>
+<div class="card">
+<h1 class="gradienttext">Услуги</h1>
+<a href="{% url 'service_create' %}">Добавить услугу</a>
+<ul>
+  {% for service in services %}
+    <li>
+      <strong>{{ service.name }}</strong> — {{ service.price }} руб.
+      (Категория:
+        {% if service.category %}
+          {{ service.category.name }}
+        {% else %}
+          Без категории
+        {% endif %}
+      )<br>
+      {{ service.description }}
+      <br>
+      <a href="{% url 'service_update' service.pk %}">Редактировать</a> |
+      <a href="{% url 'service_delete' service.pk %}">Удалить</a>
+    </li>
+  {% empty %}
+    <li>Нет услуг.</li>
+  {% endfor %}
+</ul>
+</div>
+</body>
+</html>

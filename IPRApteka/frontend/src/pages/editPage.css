@@ -1,0 +1,63 @@
+.page-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+}
+
+.card {
+  width: 70%;
+  background: linear-gradient(to right, #5995fd, #c471ed, #12c2e9);
+  border-radius: 30px;
+  padding: 20px;
+  color: white;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  margin-bottom: 10px;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.btn {
+  background-color: #5995fd;
+  border: none;
+  border-radius: 25px;
+  color: white;
+  padding: 10px 25px;
+  margin-right: 10px;
+  margin-top: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #4d84e2;
+}
+
+.btn.delete {
+  background-color: #e94b4b;
+}
+
+.btn.delete:hover {
+  background-color: #cc3b3b;
+}
+
+.btn.back {
+  background-color: #888;
+}
+
+.client-info p {
+  margin: 5px 0;
+}

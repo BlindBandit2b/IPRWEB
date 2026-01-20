@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Список услуг</title>
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}" />
+</head>
+<body>
+
+<header class="page-header" style="display: flex; justify-content: flex-end; padding: 0px;">
+    {% if user.is_authenticated %}
+        <a href="{% url 'profile' %}" class="btn" style=" padding-left: 20px; padding-top: 5px; ">  {{ user.username }}</a>
+    {% else %}
+        <a href="{% url 'auth' %}" class="btn">Войти</a>
+    {% endif %}
+</header>
+
+
+<div class="card">
+    <div class="left-container">
+        <h2 class="gradienttext">Фильтр</h2>
+        <form method="get">
+            <label for="category" style="color:white;">Категория:</label>
+            <select name="category" id="category" class="btn">
+                <option value="">Все</option>
+                {% for cat in categories %}
+                    <option value="{{ cat.id }}">{{ cat.name }}</option>
+                {% endfor %}
+            </select>
+
+            <br><label for="price_min" style="color:white;">Цена от:</label>
+            <input type="number" name="price_min" id="price_min" value="{{ request.GET.price_min }}" class="btn">
+            <label for="price_max" style="color:white;">до:</label>
+            <input type="number" name="price_max" id="price_max" value="{{ request.GET.price_max }}" class="btn">
+
+            <br><button type="submit" class="btn">Фильтр</button>
+        </form>
+    </div>
+
+    <div class="right-container">
+        <h3 class="gradienttext">Список услуг</h3>
+        <ul>
+            {% for service in services %}
+                <li>
+                    <p><strong>{{ service.name }}</strong> — {{ service.price }} руб.<br>
+                    Категория: {{ service.category.name|default:"Без категории" }}</p>
+                    <a class="btn" href="{% url 'service_detail' service.pk %}">Подробнее</a>
+                </li>
+            {% empty %}
+                <li><p>Нет услуг по текущим фильтрам.</p></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+<a href="{% url 'covid-stats-worldwide' %}" class="credit" style="color: #5995fd;">Covid</a>
+<a href="{% url 'covid-stats' %}" class="credit" style="color: #5995fd;">Covid Belarus</a>
+</body>
+</html>

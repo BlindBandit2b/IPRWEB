@@ -1,0 +1,91 @@
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <title>Статистика COVID-19 — {{ country }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f9f9f9;
+            margin: 40px;
+            color: #333;
+        }
+        .container {
+            max-width: 500px;
+            background: white;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px #ccc;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2a7ae2;
+        }
+        .stats {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            font-size: 18px;
+        }
+        .stat-item {
+            background: #eef4ff;
+            padding: 15px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .label {
+            font-weight: bold;
+            color: #555;
+        }
+        .value {
+            color: #1a73e8;
+        }
+        .error {
+            text-align: center;
+            color: red;
+            font-weight: bold;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Статистика COVID-19 — {{ country }}</h1>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% else %}
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="label">Всего случаев:</span>
+                    <span class="value">{{ data.cases|intcomma }}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="label">Активных случаев:</span>
+                    <span class="value">{{ data.active|intcomma }}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="label">Выздоровевших:</span>
+                    <span class="value">{{ data.recovered|intcomma }}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="label">Смертей:</span>
+                    <span class="value">{{ data.deaths|intcomma }}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="label">Тестов проведено:</span>
+                    <span class="value">{{ data.tests|intcomma }}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="label">Население:</span>
+                    <span class="value">{{ data.population|intcomma }}</span>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

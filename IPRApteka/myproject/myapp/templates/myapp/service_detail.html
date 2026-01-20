@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ service.name }}</title>
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+</head>
+<body>
+<div class="card">
+    <div class="left-container">
+        <h2 class="gradienttext">{{ service.name }}</h2>
+        <div class="credit">
+    {% if user.is_authenticated %}
+        <form method="post" action="{% url 'add_to_cart' service.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="btn">Добавить в корзину</button>
+        </form>
+    {% else %}
+        <p style="color: #fff;">Чтобы добавить услугу в корзину, пожалуйста, <a href="{% url 'login' %}" style="color: #5995fd;">войдите</a> в аккаунт.</p>
+    {% endif %}
+</div>
+
+        <div class="credit">
+            <a href="{% url 'service_user_list' %}">← Назад к списку</a>
+        </div>
+    </div>
+
+    <div class="right-container">
+        <h3 class="gradienttext">Описание услуги</h3>
+        <p><strong>Категория:</strong> {{ service.category.name }}</p>
+        <p><strong>Цена:</strong> {{ service.price }} ₽</p>
+        <p><strong>Описание:</strong> {{ service.description }}</p>
+    </div>
+</div>
+</body>
+</html>

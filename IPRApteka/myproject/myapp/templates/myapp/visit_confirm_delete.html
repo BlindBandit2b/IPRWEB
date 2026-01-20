@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Подтвердите удаление</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #cfdaff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            background: linear-gradient(to right, #5995fd, #c471ed, #12c2e9);
+            padding: 30px;
+            border-radius: 30px;
+            width: 400px;
+            color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        button, a {
+            margin: 10px 5px 0 5px;
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+            color: white;
+            text-decoration: none;
+        }
+
+        button {
+            background-color: #e94b4b;
+        }
+
+        button:hover {
+            background-color: #d63838;
+        }
+
+        a {
+            background-color: #5995fd;
+        }
+
+        a:hover {
+            background-color: #4d84e2;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h2>Вы уверены, что хотите удалить это посещение?</h2>
+    <p><strong>Дата:</strong> {{ visit.schedule.date|date:"d.m.Y" }} {{ visit.schedule.time_start|time:"H:i" }} - {{ visit.schedule.time_end|time:"H:i" }}</p>
+    <p><strong>Клиент:</strong> {{ visit.client.first_name }} {{ visit.client.last_name }}</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Удалить</button>
+        <a href="{% url 'doctor_visits' %}">Отмена</a>
+    </form>
+</div>
+</body>
+</html>

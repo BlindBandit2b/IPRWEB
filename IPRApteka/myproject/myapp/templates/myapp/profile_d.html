@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}" />
+</head>
+<body>
+<div class="card">
+  <div class="left-container">
+    <img src="{% static 'images/log2.png' %}" class="image" alt="Profile Image"/>
+    <h2 class="gradienttext">{{ first_name }} {{ last_name }}</h2>
+    <a href="{% url 'edit_doctor_profile' %}" class="btn solid change-btn">Change</a>
+      <a href="{% url 'service_list' %}" class="btn solid change-btn">Home</a>
+  </div>
+  <div class="right-container">
+    <h3 class="gradienttext">Profile Details</h3>
+    <table>
+        <tr>
+            <td>Username :</td>
+            <td>{{ user.username }}</td>
+        </tr>
+        <tr>
+            <td>Email :</td>
+            <td>{{ user.email }}</td>
+        </tr>
+        <tr>
+            <td>Specialization :</td>
+            <td>{{ specialization }}</td>
+        </tr>
+        <tr>
+            <td>Category :</td>
+            <td>{{ category }}</td>
+        </tr>
+        <tr>
+            <td>Department :</td>
+            <td>{{ department }}</td>
+        </tr>
+        <tr>
+            <td>Info :</td>
+            <td>{{ info }}</td>
+        </tr>
+    </table>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}" />
+</head>
+<body>
+<div class="card">
+  <div class="left-container">
+    <img src="{% static 'images/log2.png' %}" class="image" alt="Profile Image"/>
+    <h2 class="gradienttext">{{ first_name }} {{ last_name }}</h2>
+    <a href="{% url 'edit_profile' %}" class="btn solid change-btn">Change</a>
+      <a href="{% url 'my_appointments' %}" class="btn solid change-btn" style="padding-right: 25px">Appointment</a>
+      <a href="{% url 'service_user_list' %}" class="btn solid change-btn">Home</a>
+  </div>
+  <div class="right-container">
+    <h3 class="gradienttext">Profile Details</h3>
+    <table>
+        <tr>
+            <td>Username :</td>
+            <td>{{ user.username }}</td>
+        </tr>
+        <tr>
+            <td>Email :</td>
+            <td>{{ user.email }}</td>
+        </tr>
+        <tr>
+            <td>Date of birth :</td>
+            <td>{{ date_of_birth }}</td>
+        </tr>
+        <tr>
+            <td>Mobile :</td>
+            <td>{{ mobile }}</td>
+        </tr>
+        <tr>
+            <td>Address :</td>
+            <td>{{ address }}</td>
+        </tr>
+    </table>
+      <div class="joke-container" style="border: 1px solid #ccc; border-radius: 8px; color: white;">
+    <h3>Медицинская шутка дня:</h3>
+    <p>{{ joke }}</p>
+</div>
+  </div>
+</div>
+</body>
+</html>

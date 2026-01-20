@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <title>Редактировать посещение</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #cfdaff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .card {
+            background: linear-gradient(to right, #5995fd, #c471ed, #12c2e9);
+            border-radius: 30px;
+            padding: 20px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+            width: 70%;
+            color: white;
+        }
+
+        h2, h3 {
+            margin-top: 0;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        .btn {
+            background-color: #5995fd;
+            border: none;
+            border-radius: 25px;
+            color: white;
+            padding: 12px 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background-color: #4d84e2;
+        }
+
+        .btn.delete {
+            background-color: #e94b4b;
+        }
+
+        .btn.delete:hover {
+            background-color: #cc3b3b;
+        }
+
+        .client-info p {
+            margin: 4px 0;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h2>Редактировать посещение</h2>
+
+    <div class="client-info">
+        <h3>Информация о клиенте</h3>
+        <p><strong>ФИО:</strong> {{ visit.client.first_name }} {{ visit.client.last_name }}</p>
+        <p><strong>Телефон:</strong> {{ visit.client.phone|default:"не указан" }}</p>
+        <p><strong>Email:</strong> {{ visit.client.email|default:"не указан" }}</p>
+    </div>
+
+    <form method="post">
+  {% csrf_token %}
+  {{ form.schedule_date.label_tag }} {{ form.schedule_date }}
+  {{ form.schedule_time_start.label_tag }} {{ form.schedule_time_start }}
+  {{ form.schedule_time_end.label_tag }} {{ form.schedule_time_end }}
+
+  {{ form.diagnosis_text.label_tag }} {{ form.diagnosis_text }}
+
+  <button type="submit" class="btn">Сохранить</button>
+</form>
+
+
+
+    <form method="post" action="{% url 'visit_delete' visit.id %}" style="margin-top: 10px;">
+        {% csrf_token %}
+        <button type="submit" class="btn delete" onclick="return confirm('Вы уверены, что хотите удалить это посещение?');">Удалить посещение</button>
+    </form>
+
+    <div style="margin-top: 20px;">
+        <a href="{% url 'doctor_visits' %}" class="btn" style="background: #888;">← Назад к моим записям</a>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование профиля</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #cfdaff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 30px;
+            padding: 20px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+            width: 70%;
+            background: linear-gradient(to right, #5995fd, #c471ed, #12c2e9);
+        }
+
+        .form-field {
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        label {
+            font-weight: bold;
+            color: white;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .btn {
+            width: 150px;
+            background-color: #5995fd;
+            border: none;
+            height: 45px;
+            border-radius: 25px;
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.5s;
+        }
+
+        .btn:hover {
+            background-color: #4d84e2;
+        }
+
+        .error {
+            color: red;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2 class="gradienttext">Редактировать профиль</h2>
+<form method="POST">
+    {% csrf_token %}
+    {% for field in form %}
+      <div style="margin-bottom: 10px;">
+        {{ field.label_tag }}<br>
+        {{ field }}
+        {% if field.errors %}
+          <div style="color: red;">{{ field.errors|striptags }}</div>
+        {% endif %}
+      </div>
+    {% endfor %}
+    <button type="submit" class="btn">Сохранить</button>
+</form>
+
+</div>
+
+</body>
+</html>
